@@ -19,11 +19,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/compas-reference.css" />
 
     
-        <link rel="next" title="Pointcloud alignment" href="../pointcloud-alignment/pointcloud_alignment.html" />
+        <link rel="next" title="Platonic Solids" href="../platonic-solids/platonic-solids.html" />
     
     
     
-        <link rel="prev" title="Mesh Dynamic Relaxation GIF" href="../mesh-dr-gif/mesh-dr-gif.html" />
+        <link rel="prev" title="Triangulation" href="../mesh-triangulation/mesh-triangulation.html" />
     
 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -70,7 +70,7 @@
                     <div class="section" id="object-aligned-bounding-box">
 <h1>Object Aligned Bounding Box</h1>
 <div class="figure align-default">
-<img alt="../_images/oabb.png" class="figure-img img-fluid" src="../_images/oabb.png" />
+<img alt="oabb/oabb.png" class="figure-img img-fluid" src="oabb/oabb.png" />
 </div>
 <p>Compute the <em>Object-aligned Bounding Box</em> (OABB) of a pointcloud
 in threedimensional space.</p>
@@ -79,115 +79,6 @@ in threedimensional space.</p>
 <li><p>COMPAS version: 0.12.4</p></li>
 <li><p>Other requirements: none</p></li>
 </ul>
-<div class="language-python notranslate"><div class="highlight"><pre><code><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">radians</span>
-
-<span class="kn">import</span> <span class="nn">compas_rhino</span>
-
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">pointcloud</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">bounding_box</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">Rotation</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">Translation</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">Frame</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">Transformation</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">transform_points</span>
-<span class="kn">from</span> <span class="nn">compas.utilities</span> <span class="kn">import</span> <span class="n">pairwise</span>
-
-<span class="c1"># from compas.numerical import pca_numpy</span>
-<span class="kn">from</span> <span class="nn">compas.rpc</span> <span class="kn">import</span> <span class="n">Proxy</span>
-<span class="n">numerical</span> <span class="o">=</span> <span class="n">Proxy</span><span class="p">(</span><span class="s1">&#39;compas.numerical&#39;</span><span class="p">)</span>
-
-<span class="c1"># ==============================================================================</span>
-<span class="c1"># Helpers</span>
-<span class="c1"># ==============================================================================</span>
-
-
-<span class="k">def</span> <span class="nf">draw_cloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">xyz</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">color</span><span class="p">}</span> <span class="k">for</span> <span class="n">xyz</span> <span class="ow">in</span> <span class="n">cloud</span><span class="p">]</span>
-    <span class="n">compas_rhino</span><span class="o">.</span><span class="n">draw_points</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">draw_box</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">bbox</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">bbox</span><span class="p">[:</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">color</span><span class="p">})</span>
-    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="o">+</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">5</span><span class="p">]):</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">color</span><span class="p">})</span>
-    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bbox</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">4</span><span class="p">:]):</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">color</span><span class="p">})</span>
-    <span class="n">compas_rhino</span><span class="o">.</span><span class="n">draw_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">draw_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
-    <span class="n">origin</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">point</span><span class="p">)</span>
-    <span class="n">xaxis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">point</span> <span class="o">+</span> <span class="n">frame</span><span class="o">.</span><span class="n">xaxis</span><span class="p">)</span>
-    <span class="n">yaxis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">point</span> <span class="o">+</span> <span class="n">frame</span><span class="o">.</span><span class="n">yaxis</span><span class="p">)</span>
-    <span class="n">zaxis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">point</span> <span class="o">+</span> <span class="n">frame</span><span class="o">.</span><span class="n">zaxis</span><span class="p">)</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">origin</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}]</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">origin</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">xaxis</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;arrow&#39;</span><span class="p">:</span> <span class="s1">&#39;end&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">origin</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">yaxis</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;arrow&#39;</span><span class="p">:</span> <span class="s1">&#39;end&#39;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">origin</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">zaxis</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="s1">&#39;arrow&#39;</span><span class="p">:</span> <span class="s1">&#39;end&#39;</span><span class="p">}]</span>
-    <span class="n">compas_rhino</span><span class="o">.</span><span class="n">draw_points</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">compas_rhino</span><span class="o">.</span><span class="n">draw_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-
-<span class="c1"># ==============================================================================</span>
-<span class="c1"># Algorithm</span>
-<span class="c1"># ==============================================================================</span>
-
-<span class="n">cloud1</span> <span class="o">=</span> <span class="n">pointcloud</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">bbox1</span> <span class="o">=</span> <span class="n">bounding_box</span><span class="p">(</span><span class="n">cloud1</span><span class="p">)</span>
-
-<span class="n">Rz</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_axis_and_angle</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">radians</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
-<span class="n">Ry</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_axis_and_angle</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">radians</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">Rx</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_axis_and_angle</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">radians</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-
-<span class="n">T</span> <span class="o">=</span> <span class="n">Translation</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">])</span>
-
-<span class="n">R</span> <span class="o">=</span> <span class="n">T</span> <span class="o">*</span> <span class="n">Rz</span> <span class="o">*</span> <span class="n">Ry</span> <span class="o">*</span> <span class="n">Rx</span>
-
-<span class="n">cloud2</span> <span class="o">=</span> <span class="n">transform_points</span><span class="p">(</span><span class="n">cloud1</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-<span class="n">bbox2</span> <span class="o">=</span> <span class="n">transform_points</span><span class="p">(</span><span class="n">bbox1</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-
-<span class="n">mean</span><span class="p">,</span> <span class="n">vectors</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">numerical</span><span class="o">.</span><span class="n">pca_numpy</span><span class="p">(</span><span class="n">cloud2</span><span class="p">)</span>
-
-<span class="n">origin</span> <span class="o">=</span> <span class="n">mean</span>
-<span class="n">xaxis</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">yaxis</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">xaxis</span><span class="p">,</span> <span class="n">yaxis</span><span class="p">)</span>
-<span class="n">world</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">worldXY</span><span class="p">()</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">Transformation</span><span class="o">.</span><span class="n">from_frame_to_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">world</span><span class="p">)</span>
-
-<span class="n">cloud3</span> <span class="o">=</span> <span class="n">transform_points</span><span class="p">(</span><span class="n">cloud2</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-<span class="n">bbox3</span> <span class="o">=</span> <span class="n">bounding_box</span><span class="p">(</span><span class="n">cloud3</span><span class="p">)</span>
-
-<span class="n">bbox4</span> <span class="o">=</span> <span class="n">transform_points</span><span class="p">(</span><span class="n">bbox3</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">inverse</span><span class="p">())</span>
-
-<span class="c1"># ==============================================================================</span>
-<span class="c1"># Visualisation</span>
-<span class="c1"># ==============================================================================</span>
-
-<span class="n">compas_rhino</span><span class="o">.</span><span class="n">clear_layer</span><span class="p">(</span><span class="s2">&quot;Cloud1&quot;</span><span class="p">)</span>
-<span class="n">draw_cloud</span><span class="p">(</span><span class="n">cloud1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Cloud1&quot;</span><span class="p">)</span>
-<span class="n">draw_box</span><span class="p">(</span><span class="n">bbox1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Cloud1&quot;</span><span class="p">)</span>
-
-<span class="n">compas_rhino</span><span class="o">.</span><span class="n">clear_layer</span><span class="p">(</span><span class="s2">&quot;Cloud2&quot;</span><span class="p">)</span>
-<span class="n">draw_cloud</span><span class="p">(</span><span class="n">cloud2</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="s2">&quot;Cloud2&quot;</span><span class="p">)</span>
-<span class="n">draw_box</span><span class="p">(</span><span class="n">bbox2</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="s2">&quot;Cloud2&quot;</span><span class="p">)</span>
-
-<span class="n">compas_rhino</span><span class="o">.</span><span class="n">clear_layer</span><span class="p">(</span><span class="s2">&quot;Cloud3&quot;</span><span class="p">)</span>
-<span class="n">draw_cloud</span><span class="p">(</span><span class="n">cloud3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="s2">&quot;Cloud3&quot;</span><span class="p">)</span>
-<span class="n">draw_box</span><span class="p">(</span><span class="n">bbox3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="s2">&quot;Cloud3&quot;</span><span class="p">)</span>
-
-<span class="n">compas_rhino</span><span class="o">.</span><span class="n">clear_layer</span><span class="p">(</span><span class="s2">&quot;Cloud4&quot;</span><span class="p">)</span>
-<span class="n">draw_cloud</span><span class="p">(</span><span class="n">cloud2</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Cloud4&quot;</span><span class="p">)</span>
-<span class="n">draw_box</span><span class="p">(</span><span class="n">bbox4</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;Cloud4&quot;</span><span class="p">)</span>
-
-<span class="n">draw_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="s2">&quot;Frame&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
 </div>
 
                     
@@ -217,12 +108,17 @@ in threedimensional space.</p>
                             <div id="compas-navigation" class="collapse navbar-collapse compas-navigation">
 
                             <ul class="nav flex-column active">
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-dr-gif/mesh-dr-gif.html">Mesh Dynamic Relaxation GIF</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-boolean/mesh-boolean.html">Boolean Operations</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-cutting/mesh-cutting.html">Mesh Cutting</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-duals/mesh-duals.html">Dual Meshes</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-remeshing/mesh-remeshing.html">Mesh Remeshing</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-smoothing/mesh-smoothing.html">Mesh Smoothing</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-subd/mesh-subd.html">Subdivision Algorithms</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-triangulation/mesh-triangulation.html">Triangulation</a></li>
 <li class="nav-item active"><a class="nav-link active current reference internal" href="#">Object Aligned Bounding Box</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../platonic-solids/platonic-solids.html">Platonic Solids</a></li>
 <li class="nav-item"><a class="nav-link reference internal" href="../pointcloud-alignment/pointcloud_alignment.html">Pointcloud alignment</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-subd-comparison/mesh-subd-comparsion.html">Mesh Subdivision Algorithms</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-duals/mesh-duals.html">Mesh Duals</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../platonic-solid-duals/platonic-solid-duals.html">Platonic Solid Duals</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../topology-optimization/topology-optimization.html">Topology Optimization</a></li>
 </ul>
 
 
@@ -250,7 +146,7 @@ in threedimensional space.</p>
         
 
         
-            Last updated on Dec 17, 2019.
+            Last updated on Apr 02, 2020.
         
 
         

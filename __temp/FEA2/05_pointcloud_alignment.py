@@ -25,12 +25,12 @@ Point.transform_collection(outliers, R)
 
 target = observations + noise + outliers
 
-A, X = icp_numpy(source, target)
-source_new = [Point(*point) for point in A]
+# A, X = icp_numpy(source, target)
+# source_new = [Point(*point) for point in A]
 
 plotter = Plotter2()
 [plotter.add(point, facecolor=(1.0, 1.0, 1.0)) for point in source]
 [plotter.add(point, facecolor=(0.0, 0.0, 0.0)) for point in target]
-[plotter.add(point, facecolor=(1.0, 0.0, 0.0)) for point in source_new]
+# [plotter.add(point, facecolor=(1.0, 0.0, 0.0)) for point in source_new]
 plotter.zoom_extents()
 plotter.show()

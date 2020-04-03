@@ -1,6 +1,6 @@
-********************
-Platonic Solid Duals
-********************
+***************
+Platonic Solids
+***************
 
 .. figure:: platonic-solid-duals.png
     :figclass: figure

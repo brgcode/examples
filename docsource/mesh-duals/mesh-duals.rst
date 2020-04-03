@@ -1,6 +1,6 @@
-**********
-Mesh Duals
-**********
+***********
+Dual Meshes
+***********
 
 .. figure:: mesh-duals.png
     :figclass: figure

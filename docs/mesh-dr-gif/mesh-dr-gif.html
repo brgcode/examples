@@ -19,11 +19,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/compas-reference.css" />
 
     
-        <link rel="next" title="Object Aligned Bounding Box" href="../oabb/oabb.html" />
     
-    
-    
-        <link rel="prev" title="COMPAS Examples" href="../index.html" />
     
 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -108,16 +104,16 @@ Save the relaxation process in an animated gif.</p>
 
 <span class="c1"># get numerical mesh data</span>
 
-<span class="n">vertices</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_vertices_attributes</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+<span class="n">vertices</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices_attributes</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
 <span class="n">fixed</span> <span class="o">=</span> <span class="n">corners</span>
 <span class="n">loads</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">]</span>
-<span class="n">qpre</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_edges_attribute</span><span class="p">(</span><span class="s1">&#39;qpre&#39;</span><span class="p">)</span>
-<span class="n">fpre</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_edges_attribute</span><span class="p">(</span><span class="s1">&#39;fpre&#39;</span><span class="p">)</span>
-<span class="n">lpre</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_edges_attribute</span><span class="p">(</span><span class="s1">&#39;lpre&#39;</span><span class="p">)</span>
-<span class="n">linit</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_edges_attribute</span><span class="p">(</span><span class="s1">&#39;l0&#39;</span><span class="p">)</span>
-<span class="n">E</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_edges_attribute</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span>
-<span class="n">radius</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_edges_attribute</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">qpre</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges_attribute</span><span class="p">(</span><span class="s1">&#39;qpre&#39;</span><span class="p">)</span>
+<span class="n">fpre</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges_attribute</span><span class="p">(</span><span class="s1">&#39;fpre&#39;</span><span class="p">)</span>
+<span class="n">lpre</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges_attribute</span><span class="p">(</span><span class="s1">&#39;lpre&#39;</span><span class="p">)</span>
+<span class="n">linit</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges_attribute</span><span class="p">(</span><span class="s1">&#39;l0&#39;</span><span class="p">)</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges_attribute</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges_attribute</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
 
 <span class="c1"># make a plotter</span>
 <span class="c1"># and draw the initial configuration</span>
@@ -193,13 +189,18 @@ Save the relaxation process in an animated gif.</p>
                         <div class="navbar-expand-md">
                             <div id="compas-navigation" class="collapse navbar-collapse compas-navigation">
 
-                            <ul class="nav flex-column active">
-<li class="nav-item active"><a class="nav-link active current reference internal" href="#">Mesh Dynamic Relaxation GIF</a></li>
+                            <ul class="nav flex-column">
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-boolean/mesh-boolean.html">Boolean Operations</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-cutting/mesh-cutting.html">Mesh Cutting</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-duals/mesh-duals.html">Dual Meshes</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-remeshing/mesh-remeshing.html">Mesh Remeshing</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-smoothing/mesh-smoothing.html">Mesh Smoothing</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-subd/mesh-subd.html">Subdivision Algorithms</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-triangulation/mesh-triangulation.html">Triangulation</a></li>
 <li class="nav-item"><a class="nav-link reference internal" href="../oabb/oabb.html">Object Aligned Bounding Box</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../platonic-solids/platonic-solids.html">Platonic Solids</a></li>
 <li class="nav-item"><a class="nav-link reference internal" href="../pointcloud-alignment/pointcloud_alignment.html">Pointcloud alignment</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-subd-comparison/mesh-subd-comparsion.html">Mesh Subdivision Algorithms</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-duals/mesh-duals.html">Mesh Duals</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../platonic-solid-duals/platonic-solid-duals.html">Platonic Solid Duals</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../topology-optimization/topology-optimization.html">Topology Optimization</a></li>
 </ul>
 
 
@@ -227,7 +228,7 @@ Save the relaxation process in an animated gif.</p>
         
 
         
-            Last updated on Dec 17, 2019.
+            Last updated on Apr 02, 2020.
         
 
         

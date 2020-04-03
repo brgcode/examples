@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>COMPAS - Mesh Duals</title>
+    <title>COMPAS - Dual Meshes</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -19,11 +19,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/compas-reference.css" />
 
     
-        <link rel="next" title="Platonic Solid Duals" href="../platonic-solid-duals/platonic-solid-duals.html" />
+        <link rel="next" title="Mesh Remeshing" href="../mesh-remeshing/mesh-remeshing.html" />
     
     
     
-        <link rel="prev" title="Mesh Subdivision Algorithms" href="../mesh-subd-comparison/mesh-subd-comparsion.html" />
+        <link rel="prev" title="Mesh Cutting" href="../mesh-cutting/mesh-cutting.html" />
     
 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -67,8 +67,8 @@
 
                     
 
-                    <div class="section" id="mesh-duals">
-<h1>Mesh Duals</h1>
+                    <div class="section" id="dual-meshes">
+<h1>Dual Meshes</h1>
 <div class="figure align-default">
 <img alt="../_images/mesh-duals.png" class="figure-img img-fluid" src="../_images/mesh-duals.png" />
 </div>
@@ -82,13 +82,12 @@
 
 <span class="kn">from</span> <span class="nn">compas.datastructures</span> <span class="kn">import</span> <span class="n">Mesh</span>
 <span class="kn">from</span> <span class="nn">compas.datastructures</span> <span class="kn">import</span> <span class="n">mesh_subdivide</span>
-<span class="kn">from</span> <span class="nn">compas.datastructures</span> <span class="kn">import</span> <span class="n">mesh_transform</span>
-<span class="kn">from</span> <span class="nn">compas.datastructures</span> <span class="kn">import</span> <span class="n">mesh_dual</span>
 <span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">Box</span>
 <span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">Translation</span>
-<span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">bounding_box_xy</span>
 <span class="kn">from</span> <span class="nn">compas.geometry</span> <span class="kn">import</span> <span class="n">distance_point_point</span>
+
 <span class="kn">from</span> <span class="nn">compas_viewers.multimeshviewer</span> <span class="kn">import</span> <span class="n">MultiMeshViewer</span>
+
 
 <span class="n">tri</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mesh_subdivide</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;tri&#39;</span><span class="p">)</span>
 <span class="n">quad</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mesh_subdivide</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;quad&#39;</span><span class="p">)</span>
@@ -100,8 +99,9 @@
 <span class="n">box</span> <span class="o">=</span> <span class="n">Box</span><span class="o">.</span><span class="n">from_corner_corner_height</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">from_shape</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
 
-<span class="n">bbox</span> <span class="o">=</span> <span class="n">bounding_box_xy</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">get_vertices_attributes</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">))</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">bounding_box_xy</span><span class="p">()</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">distance_point_point</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
 
 <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
 
@@ -111,17 +111,20 @@
 <span class="n">corner_mesh</span> <span class="o">=</span> <span class="n">corner</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
 <span class="n">doosabin_mesh</span> <span class="o">=</span> <span class="n">doosabin</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
 
-<span class="n">mesh_transform</span><span class="p">(</span><span class="n">quad_mesh</span><span class="p">,</span> <span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
-<span class="n">mesh_transform</span><span class="p">(</span><span class="n">corner_mesh</span><span class="p">,</span> <span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
-<span class="n">mesh_transform</span><span class="p">(</span><span class="n">ck_mesh</span><span class="p">,</span> <span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
-<span class="n">mesh_transform</span><span class="p">(</span><span class="n">doosabin_mesh</span><span class="p">,</span> <span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+
+<span class="n">quad_mesh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+<span class="n">corner_mesh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+<span class="n">ck_mesh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+<span class="n">doosabin_mesh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Translation</span><span class="p">([</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+
 
 <span class="n">meshes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tri_mesh</span><span class="p">,</span> <span class="n">quad_mesh</span><span class="p">,</span> <span class="n">corner_mesh</span><span class="p">,</span> <span class="n">ck_mesh</span><span class="p">,</span> <span class="n">doosabin_mesh</span><span class="p">]</span>
 <span class="n">duals</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">meshes</span><span class="p">:</span>
-    <span class="n">dual</span> <span class="o">=</span> <span class="n">mesh_dual</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dual</span><span class="p">()</span>
     <span class="n">duals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dual</span><span class="p">)</span>
-    <span class="n">mesh_transform</span><span class="p">(</span><span class="n">dual</span><span class="p">,</span> <span class="n">Translation</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+    <span class="n">dual</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Translation</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
+
 
 <span class="n">viewer</span> <span class="o">=</span> <span class="n">MultiMeshViewer</span><span class="p">()</span>
 <span class="n">viewer</span><span class="o">.</span><span class="n">meshes</span> <span class="o">=</span> <span class="n">meshes</span> <span class="o">+</span> <span class="n">duals</span>
@@ -157,12 +160,17 @@
                             <div id="compas-navigation" class="collapse navbar-collapse compas-navigation">
 
                             <ul class="nav flex-column active">
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-dr-gif/mesh-dr-gif.html">Mesh Dynamic Relaxation GIF</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-boolean/mesh-boolean.html">Boolean Operations</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-cutting/mesh-cutting.html">Mesh Cutting</a></li>
+<li class="nav-item active"><a class="nav-link active current reference internal" href="#">Dual Meshes</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-remeshing/mesh-remeshing.html">Mesh Remeshing</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-smoothing/mesh-smoothing.html">Mesh Smoothing</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-subd/mesh-subd.html">Subdivision Algorithms</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../mesh-triangulation/mesh-triangulation.html">Triangulation</a></li>
 <li class="nav-item"><a class="nav-link reference internal" href="../oabb/oabb.html">Object Aligned Bounding Box</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../platonic-solids/platonic-solids.html">Platonic Solids</a></li>
 <li class="nav-item"><a class="nav-link reference internal" href="../pointcloud-alignment/pointcloud_alignment.html">Pointcloud alignment</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../mesh-subd-comparison/mesh-subd-comparsion.html">Mesh Subdivision Algorithms</a></li>
-<li class="nav-item active"><a class="nav-link active current reference internal" href="#">Mesh Duals</a></li>
-<li class="nav-item"><a class="nav-link reference internal" href="../platonic-solid-duals/platonic-solid-duals.html">Platonic Solid Duals</a></li>
+<li class="nav-item"><a class="nav-link reference internal" href="../topology-optimization/topology-optimization.html">Topology Optimization</a></li>
 </ul>
 
 
@@ -190,7 +198,7 @@
         
 
         
-            Last updated on Dec 17, 2019.
+            Last updated on Apr 02, 2020.
         
 
         
