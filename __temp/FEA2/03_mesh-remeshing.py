@@ -16,10 +16,12 @@ fixed = [key]
 plotter = MeshPlotter(mesh, figsize=(8, 5))
 plotter.draw_edges(width=0.5)
 
+
 def callback(mesh, k, args):
     print(k)
     plotter.update_edges()
     plotter.update()
+
 
 trimesh_remesh(
     mesh,
