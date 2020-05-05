@@ -2,7 +2,7 @@
 Platonic Solids
 ***************
 
-.. figure:: platonic-solid-duals.png
+.. figure:: platonic-solids.png
     :figclass: figure
     :class: figure-img img-fluid
 
@@ -12,5 +12,5 @@ Duals of Platonic Solids.
 * COMPAS version: 0.13.0
 * Other requirements: :mod:`compas_viewers`
 
-.. literalinclude:: platonic-solid-duals.py
+.. literalinclude:: platonic-solids.py
     :language: python

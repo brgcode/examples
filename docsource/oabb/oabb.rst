@@ -2,7 +2,7 @@
 Object Aligned Bounding Box
 ***************************
 
-.. figure:: oabb.png
+.. figure:: oabb-rhino.png
     :figclass: figure
     :class: figure-img img-fluid
 
@@ -13,5 +13,5 @@ in threedimensional space.
 * COMPAS version: 0.12.4
 * Other requirements: none
 
-.. literalinclude:: oabb.py
+.. literalinclude:: oabb-rhino.py
     :language: python
