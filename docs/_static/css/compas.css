@@ -2,6 +2,11 @@
   font-size: 1.25em;
 }
 
+:target {
+	padding-top: calc(3rem + 74px);
+  margin-top: calc(-3rem - 74px);
+}
+
 h2 {
   margin-top: 3rem;
   margin-bottom: 2rem;
@@ -173,7 +178,7 @@ table {
   .compas-navigation {
     display: block !important;
     overflow-y: auto;
-    max-height: calc(100vh - 74px);
+    max-height: calc(100vh - 150px);
     border: none;
   }
 }
@@ -257,14 +262,7 @@ table {
 
 /* Content */
 
-/* .compas-content .section > ul {
-  margin-bottom: 2rem;
-}
-
-.compas-content ul p {
-  margin-bottom: 0.5rem;
-}
-
+/*
 .compas-content .metadata {
   margin-left: 4rem;
 }
@@ -278,6 +276,15 @@ table {
   margin-bottom: 2rem;
 }
 */
+
+.compas-content ul {
+  margin-bottom: 2rem;
+}
+
+.compas-content ul p {
+  margin: 0;
+  padding: 0;
+}
 
 .compas-content .figure {
   margin-bottom: 2rem;
