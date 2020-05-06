@@ -3,8 +3,7 @@
 }
 
 :target {
-	padding-top: calc(3rem + 74px);
-  margin-top: calc(-3rem - 74px);
+  scroll-margin-top: calc(74px + 3rem);
 }
 
 h2 {
@@ -209,7 +208,10 @@ table {
   padding-left: 2rem;
 }
 
-.compas-navigation .nav .nav .nav-link:hover,
+.compas-navigation .nav .nav .nav-link:hover {
+  color: #222;
+}
+
 .compas-navigation .nav .nav .active .nav-link {
   color: #222;
   font-weight: bold;
@@ -222,7 +224,10 @@ table {
   font-weight: normal
 }
 
-.compas-navigation .nav .nav .nav .nav-link:hover,
+.compas-navigation .nav .nav .nav .nav-link:hover {
+  color: #222;
+}
+
 .compas-navigation .nav .nav .nav .active .nav-link {
   color: #222;
   font-weight: bold
