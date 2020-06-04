@@ -4,7 +4,7 @@ Example usage of the COMPAS framework.
 
 ## Contributions
 
-To contribute an example, pleae submit a Pull Request.
+To contribute an example, please submit a Pull Request.
 
 ## Issues
 

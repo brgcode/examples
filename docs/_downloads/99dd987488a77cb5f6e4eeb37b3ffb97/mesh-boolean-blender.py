@@ -3,8 +3,7 @@ from compas.geometry import Translation
 from compas.datastructures import Mesh
 from compas.datastructures import mesh_quads_to_triangles
 
-from compas_viewers.multimeshviewer import MultiMeshViewer
-from compas_viewers.multimeshviewer import MeshObject
+from compas_blender.artists import MeshArtist
 
 import compas_libigl as igl
 
@@ -45,15 +44,3 @@ c_union.transform(Translation([7.5, 0, 0]))
 c_intersection.transform(Translation([15, 0, 0]))
 c_diff.transform(Translation([22.5, 0, 0]))
 
-viewer = MultiMeshViewer()
-
-meshes = [
-    MeshObject(a, color='#ff0000'),
-    MeshObject(b, color='#0000ff'),
-    MeshObject(c_union, color='#ff00ff'),
-    MeshObject(c_intersection, color='#00ff00'),
-    MeshObject(c_diff, color='#00ff00'),
-]
-
-viewer.meshes = meshes
-viewer.show()

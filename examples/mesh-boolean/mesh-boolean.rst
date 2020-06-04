@@ -2,21 +2,44 @@
 Boolean Operations
 ******************
 
-.. figure:: mesh-subd-comparison.png
+.. figure:: mesh-boolean-viewer.png
     :figclass: figure
     :class: figure-img img-fluid
 
-There is currently no support for boolean operations in core COMPAS.
-You have to install ``compas_libigl`` to make them available.
-Install instructions for ``compas_libigl`` are available
-`here <https://github.com/BlockResearchGroup/compas_libigl>`_.
+Requirements
+============
+
+* COMPAS
+* compas_libigl
+* compas_viewers
+
+Install instructions for each of the requirements are available in their respective repos:
+
+* https://github.com/compas-dev/compas
+* https://github.com/BlockResearchGroup/compas_libigl
+* https://github.com/BlockResearchGroup/compas_viewers
+
+**Experimental**
+
+All requirements can be installed in one go in a custom environment using the environment files
+included here:
+
+* :download:`environment_osx.yml`.
+* :download:`environment_win.yml`.
+
+.. code-block:: bash
+
+    conda env create -f environment_osx.yml
+
+
+Input Geometry
+==============
 
 In this example, we will create two boxes and apply various boolean operations
 to them: union, intersection, and difference.
 
 We use ``compas.geometry`` to create the box shapes, and ``compas.datastructures``
-to convert them triangle meshes.
-
+to convert them to triangle meshes.
 
 .. code-block:: python
 
@@ -24,21 +47,14 @@ to convert them triangle meshes.
     from compas.datastructures import Mesh
 
 
-Input Geometry
-==============
-
 A box can be created around the origin with a chosen width, height, and depth.
-We will box `a` with `width=5.0`, `height=3.0`, and `depth=1.0`,
-and box `b` with `width=1.0`, `height=5.0`, and `depth=3.0`.
+We will create box ``a`` with ``width=5.0``, ``height=3.0``, and ``depth=1.0``,
+and box ``b`` with ``width=1.0``, ``height=5.0``, and ``depth=3.0``.
 
 .. code-block:: python
 
     a = Box.from_width_height_depth(5.0, 3.0, 1.0)
     b = Box.from_width_height_depth(1.0, 5.0, 3.0)
-
-.. note::
-
-    Note that width is along the X-axis, height along Z, and depth along Y.
 
 A ``Box`` is a ``Shape`` and any ``Shape`` can be converted to a mesh.
 
@@ -113,6 +129,10 @@ This is the final script using the ``MutliMeshViewer`` for visualisation.
 Blender
 =======
 
+.. figure:: mesh-boolean-blender.png
+    :figclass: figure
+    :class: figure-img img-fluid
+
 To run this example in Blender, make sure that COMPAS and ``compas_libigl`` are installed for Blender.
 For detailed instructions, see `Install COMPAS for Blender <https://compas-dev.github.io/main/gettingstarted/cad/blender.html>`_.
 
@@ -120,15 +140,12 @@ For visualisation we import Blender artists instead of the ``MultiMeshViewer``.
 
 .. code-block:: python
 
-    # from compas_viewers.multimeshviewer import MultiMeshViewer
-    # from compas_viewers.multimeshviewer import MeshObject
-
     from compas_blender.artists import MeshArtist
 
-This is the complete script for Blender.
+Everything else is the same.
+The complete script for Blender is available here:
 
-.. literalinclude:: mesh-boolean-blender.py
-    :language: python
+* :download:`mesh-boolean-blender.py`
 
 
 .. _Rhino:
@@ -136,11 +153,16 @@ This is the complete script for Blender.
 Rhino
 =====
 
+.. figure:: mesh-boolean-rhino.png
+    :figclass: figure
+    :class: figure-img img-fluid
+
 To run this example in Rhino, make sure that COMPAS is installed for Rhino.
 For detailed instructions, see `Install COMPAS for Rhino <https://compas-dev.github.io/main/gettingstarted/cad/rhino.html>`_.
 
 In Rhino, the functionality from ``compas_libigl`` cannot be called directly because the wrappers
-for the C++ code of `libigl` are generated using PyBind11. Instead we use Remote Procedure Calls.
+for the C++ code of ``libigl`` are generated using PyBind11.
+Instead we use Remote Procedure Calls.
 
 The required changes to the original code are minimal, but the RPC server needs to be set up properly.
 See the tutorial for more information: `Remote Procedure Calls <https://compas-dev.github.io/main/tutorial/rpc.html>`_.
@@ -149,21 +171,15 @@ Instead of importing ``compas_libigl`` directly as before, we create a ``Proxy``
 
 .. code-block:: python
 
-    # import compas_libigl as igl
     from compas.rpc import Proxy
-
     igl = Proxy('compas_libigl')
 
 For visualisation we import Rhino artists instead of the ``MultiMeshViewer``.
 
 .. code-block:: python
 
-    # from compas_viewers.multimeshviewer import MultiMeshViewer
-    # from compas_viewers.multimeshviewer import MeshObject
-
     from compas_rhino.artists import MeshArtist
 
-This is the complete script for Rhino.
+The complete script for Rhino is available here:
 
-.. literalinclude:: mesh-boolean-rhino.py
-    :language: python
+* :download:`mesh-boolean-rhino.py`

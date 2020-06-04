@@ -7,8 +7,6 @@ COMPAS Examples
     :maxdepth: 1
     :titlesonly:
 
-    fofin/**
-    mesh-boolean/**
     mesh-cutting/**
     mesh-duals/**
     mesh-remeshing/**
@@ -18,4 +16,3 @@ COMPAS Examples
     oabb/**
     platonic-solids/**
     pointcloud-alignment/**
-    topology-optimization/**

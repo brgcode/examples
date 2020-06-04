@@ -13,7 +13,7 @@ We will only use functionality from the main COMPAS library, so no additional pa
 If you prefer using the viewer instead of Rhino/Blender for visualisation, please follow the installation ibstructions
 `here <https://github.com/compas-dev/compas_viewers>`_.
 
-For the super impatient, Rhino and Belnder versions of the script are available for download here:
+For the super impatient, Rhino and Blender versions of the script are available for download here:
 
 * :download:`mesh-cutting-rhino.py <mesh-cutting-rhino.py>`
 * :download:`mesh-cutting-blender.py <mesh-cutting-blender.py>`
@@ -21,9 +21,6 @@ For the super impatient, Rhino and Belnder versions of the script are available 
 
 Imports
 =======
-
-We will build the mesh cutting algorithm from scratch using only functionality from the core COMPAS package (:mod:`compas`).
-These are the required imports.
 
 .. code-block:: python
 
