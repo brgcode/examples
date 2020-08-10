@@ -46,7 +46,7 @@ for _ in range(0, 7):
     A, b = A.cut(plane)
     red.append(b)
     vector = plane.normal.scaled(0.1)
-    T = Translation(vector)
+    T = Translation.from_vector(vector)
     A.transform(T)
 red.append(A)
 
@@ -55,7 +55,7 @@ for _ in range(0, 7):
     a, B = B.cut(plane)
     blue.append(a)
     vector = plane.normal.scaled(-0.1)
-    T = Translation(vector)
+    T = Translation.from_vector(vector)
     B.transform(T)
 blue.append(B)
 
