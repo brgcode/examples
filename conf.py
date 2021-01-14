@@ -23,7 +23,7 @@ version = '.'.join(release.split('.')[0:2])
 master_doc       = 'index'
 source_suffix    = ['.rst', ]
 templates_path   = ['_templates', ]
-exclude_patterns = ['_build', '**.ipynb_checkpoints', '_notebooks']
+exclude_patterns = ['_build', '**.ipynb_checkpoints', '_notebooks', '__temp', '.github', '.vscode']
 
 pygments_style   = 'sphinx'
 show_authors     = True
@@ -203,7 +203,6 @@ plot_html_show_formats = False
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
-    'compas': ('https://compas-dev.github.io/main', 'https://compas-dev.github.io/main/objects.inv'),
 }
 
 
