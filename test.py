@@ -12,9 +12,9 @@ for folder in folders:
     shell_script += "conda env create -n {} -f {}/environment.yml\n".format(folder, folder)
     shell_script += "conda activate {}\n".format(folder)
     shell_script += "cd {}\n".format(folder)
-    shell_script += "python test.py"
-    shell_script += "echo {} has passed test!".format(folder)
-    shell_script += "cd ../"
+    shell_script += "python test.py\n"
+    shell_script += "echo {} has passed test!\n".format(folder)
+    shell_script += "cd ../\n"
 
 f = open("temp/test.bat", "w")
 f.write(shell_script)
