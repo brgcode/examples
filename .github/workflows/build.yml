@@ -1,0 +1,33 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-packages:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: conda-incubator/setup-miniconda@v2.0.0
+        with:
+          miniconda-version: "latest"
+          activate-environment: base
+          python-version: 3.8
+
+      - name: Generate testing script
+        run: |
+          python test.py
+
+      - name: Run test script
+        run: |
+          call "test.bat"
