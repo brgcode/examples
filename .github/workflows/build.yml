@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,6 +29,17 @@ jobs:
         run: |
           python test.py
 
-      - name: Run test script
+      - name: Run test script Win
+        if: runner.os == 'Windows'
         run: |
           temp\test.bat
+
+      - name: Run test script Mac
+        if: runner.os == 'macOS'
+        run: |
+          temp/test.sh
+
+      - name: Run test script Linux
+        if: runner.os == 'Linux'
+        run: |
+          temp/test.sh

@@ -13,8 +13,13 @@ for folder in folders:
     shell_script += "conda activate {}\n".format(folder)
     shell_script += "cd {}\n".format(folder)
     shell_script += "python test.py"
+    shell_script += "echo {} has passed test!".format(folder)
     shell_script += "cd ../"
 
 f = open("temp/test.bat", "w")
+f.write(shell_script)
+f.close()
+
+f = open("temp/test.sh", "w")
 f.write(shell_script)
 f.close()
