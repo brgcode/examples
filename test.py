@@ -4,24 +4,27 @@ import os
 folders = [folder for folder in os.listdir(".") if os.path.isdir(folder) and ".git" in os.listdir(folder)]
 print("Found submodules:", folders)
 
-shell_script = ""
+shell_script = []
 
 if not os.path.exists("temp"):
     os.mkdir("temp")
 
 for folder in folders:
-    shell_script += "conda env create -n {} -f {}/environment.yml\n".format(folder, folder)
-    shell_script += "conda activate {}\n".format(folder)
-    shell_script += "cd {}\n".format(folder)
-    shell_script += "python test.py\n"
-    shell_script += "echo {} has passed test!\n".format(folder)
-    shell_script += "cd ../\n"
+    shell_script.extend([
+        "conda env create -n {} -f {}/environment.yml".format(folder, folder),
+        "conda activate {}".format(folder),
+        "cd {}".format(folder),
+        "python test.py",
+        "echo {} has passed test!".format(folder),
+        "cd ../"
+    ])
+
 
 f = open("temp/test.bat", "w")
-f.write(shell_script)
+f.write(os.linesep.join(shell_script))
 f.close()
 
-shell_script = "eval \"$(conda shell.bash hook)\"\n" + shell_script
+shell_script.insert(0, "eval \"$(conda shell.bash hook)\"")
 f = open("temp/test.sh", "w")
-f.write(shell_script)
+f.write(os.linesep.join(shell_script))
 f.close()
