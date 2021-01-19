@@ -20,6 +20,7 @@ f = open("temp/test.bat", "w")
 f.write(shell_script)
 f.close()
 
+shell_script = "eval \"$(conda shell.bash hook)\"\n" + shell_script
 f = open("temp/test.sh", "w")
 f.write(shell_script)
 f.close()
