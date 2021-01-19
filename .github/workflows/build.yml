@@ -1,0 +1,47 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-packages:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: conda-incubator/setup-miniconda@v2.0.0
+        with:
+          miniconda-version: "latest"
+          auto-activate-base: true
+
+      - name: Generate testing script
+        run: |
+          python test.py
+
+      - name: Run test script Win
+        if: runner.os == 'Windows'
+        run: |
+          temp\test.bat
+
+      - name: Run test script Mac
+        if: runner.os == 'macOS'
+        run: |
+          chmod +x "temp/test.sh"
+          temp/test.sh
+
+      - name: Run test script Linux
+        if: runner.os == 'Linux'
+        run: |
+          chmod +x "temp/test.sh"
+          temp/test.sh
