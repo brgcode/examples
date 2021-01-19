@@ -6,13 +6,15 @@ print("Found submodules:", folders)
 
 shell_script = ""
 
+os.makedirs("temp", exist_ok=True)
+
 for folder in folders:
-    shell_script += "conda create -n {} -y -f {}/environment.yml\n".format(folder, folder)
+    shell_script += "conda env create -n {} -f {}/environment.yml\n".format(folder, folder)
     shell_script += "conda activate {}\n".format(folder)
     shell_script += "cd {}\n".format(folder)
     shell_script += "python test.py"
     shell_script += "cd ../"
 
-f = open("test.bat", "w")
+f = open("temp/test.bat", "w")
 f.write(shell_script)
 f.close()

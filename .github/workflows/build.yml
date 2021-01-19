@@ -31,4 +31,4 @@ jobs:
 
       - name: Run test script
         run: |
-          .\test.bat
+          temp\test.bat
