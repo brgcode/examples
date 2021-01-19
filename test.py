@@ -6,7 +6,8 @@ print("Found submodules:", folders)
 
 shell_script = ""
 
-os.makedirs("temp", exist_ok=True)
+if not os.path.exists("temp"):
+    os.mkdir("temp")
 
 for folder in folders:
     shell_script += "conda env create -n {} -f {}/environment.yml\n".format(folder, folder)
