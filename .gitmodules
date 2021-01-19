@@ -1,3 +1,0 @@
-[submodule "test_submodule"]
-	path = test_submodule
-	url = https://github.com/BlockResearchGroup/test_submodule.git
