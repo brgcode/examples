@@ -11,7 +11,7 @@ else:
 submodules = [folder for folder in os.listdir(".") if os.path.isdir(folder) and ".git" in os.listdir(folder)]
 print("Found submodules:", submodules)
 
-shell_script = []
+shell_script = [' ']
 
 if not os.path.exists("temp"):
     os.mkdir("temp")
