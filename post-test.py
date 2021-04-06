@@ -17,4 +17,9 @@ for module in submodules:
     commit = label.split(" ")[1]
     TESTED[module] = commit
 
+# Delete un-existed examples 
+for key in TESTED:
+    if key not in submodules:
+        del TESTED[key]
+
 json.dump(TESTED, open("tested.json", "w"))
