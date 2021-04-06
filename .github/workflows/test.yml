@@ -1,4 +1,4 @@
-name: build
+name: test
 
 on:
   push:
@@ -49,9 +49,12 @@ jobs:
   post-test:
     needs: test
     runs-on: ubuntu-latest
-    # if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+
       - name: update tested record
         run: |
           python post-test.py
