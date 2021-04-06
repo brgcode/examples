@@ -18,7 +18,7 @@ for module in submodules:
     TESTED[module] = commit
 
 # Delete un-existed examples 
-for key in TESTED:
+for key in TESTED.copy():
     if key not in submodules:
         del TESTED[key]
 
