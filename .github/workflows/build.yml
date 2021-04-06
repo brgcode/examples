@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build-packages:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -45,3 +45,14 @@ jobs:
         run: |
           chmod +x "temp/test.sh"
           temp/test.sh
+
+  post-test:
+    needs: test
+    runs-on: ubuntu-latest
+    # if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v2
+      - name: update tested record
+        run: |
+          python post-test.py
+          cat tested.json
