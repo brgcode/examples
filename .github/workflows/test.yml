@@ -32,19 +32,19 @@ jobs:
       - name: Run test script Win
         if: runner.os == 'Windows'
         run: |
-          temp\test.bat
+          temp\test.windows.bat
 
       - name: Run test script Mac
         if: runner.os == 'macOS'
         run: |
           chmod +x "temp/test.sh"
-          temp/test.sh
+          temp/test.macos.sh
 
       - name: Run test script Linux
         if: runner.os == 'Linux'
         run: |
           chmod +x "temp/test.sh"
-          temp/test.sh
+          temp/test.linux.sh
 
   post-test:
     needs: test
