@@ -26,7 +26,7 @@ def generate_test(shell_script, os_type):
         if os.path.exists(env_file_cross_platform):
             env_file = env_file_cross_platform
         else:
-            env_file = os.path.join(module, "environment.{}.yml".fromat(os_type))
+            env_file = os.path.join(module, "environment.{}.yml".format(os_type))
 
         if not os.path.exists(env_file):
             print("Skipping os: {}".format(os_type))
