@@ -12,7 +12,7 @@ The environment file can be downloaded from the specific example page in the doc
 To create an environment with the conda and the file, do
 
 ```bash
-conda env create -n example -f path/to/example/env.yml
+conda env create -n example -f path/to/example/environment.yml
 ```
 
 Activate before using
@@ -61,7 +61,7 @@ This is a two-part procedure.
    from which the entry in the online documentation will be generated.
 
 4. Once development is finished, update the environment file with the required dependencies.
-   The goal is that with this file, users can recreate an environment in which the example is guaranteed to run.
+   The goal is that with this file, users can recreate an environment in which the example is guaranteed to run. The environment file is named by default as `environment.yml`, which means the example will be able to run across-platforms (windows, macos, linux), you can also create separate os-specific environment files and name them as: `environment.windows.yml`, `environment.macos.yml` and `environment.linux.yml`.
 
    The template file already contains the following
 
@@ -136,6 +136,8 @@ This is a two-part procedure.
    conda activate example
    python script.py
    ```
+
+6. A `test.py` file is required for each example, to validate that everything will work under a non-visualized environment.
 
 ### Part 2: Submitting the pull request
 
