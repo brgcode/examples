@@ -7,14 +7,31 @@ if os.path.exists("tested.json"):
 else:
     TESTED = {}
 
+if not os.path.exists("temp"):
+    os.mkdir("temp")
+
+
 # Get submodule folders
 submodules = [folder for folder in os.listdir(".") if os.path.isdir(folder) and ".git" in os.listdir(folder)]
 print("Found submodules:", submodules)
 
 
-if not os.path.exists("temp"):
-    os.mkdir("temp")
+# Check if all submodules has environment yaml
+for module in submodules:
+    env_files = ["environment.yml", "environment.windows.yml", "environment.macos.yml", "environment.linux.yml"]
+    env_file_exists = False
+    for env_file in env_files:
+        if env_file in os.listdir(module):
+            env_file_exists = True
+            break
+    if not env_file_exists:
+        raise RuntimeError("environment yaml missing for {}".format(module))
 
+
+# Generate test scripts for each platforms
+shell_script_windows = ['echo start testing']
+shell_script_macos = ['echo start testing']
+shell_script_linux = ['echo start testing']
 
 def generate_test(shell_script, os_type):
     for module in submodules:
@@ -36,7 +53,7 @@ def generate_test(shell_script, os_type):
             print("Skipping tested module: {} {}".format(module, commit))
             continue
 
-        print("Generate test for {} {}".format(module, commit))
+        print("Generate test for {} {} {}".format(module, commit, os_type))
 
         shell_script.extend([
             "conda env create -n {} -f {}".format(module, env_file),
@@ -47,12 +64,6 @@ def generate_test(shell_script, os_type):
             "cd ../"
         ])
 
-
-
-
-shell_script_windows = ['echo start testing']
-shell_script_macos = ['echo start testing']
-shell_script_linux = ['echo start testing']
 
 generate_test(shell_script_windows, 'windows')
 generate_test(shell_script_macos, 'macos')
