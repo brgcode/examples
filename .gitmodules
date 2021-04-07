@@ -1,0 +1,3 @@
+[submodule "example_test"]
+	path = example_test
+	url = https://github.com/Licini/example_test.git
