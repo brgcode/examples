@@ -1,0 +1,3 @@
+[submodule "example-mesh-booleans"]
+	path = example-mesh-booleans
+	url = https://github.com/brgcode/example-mesh-booleans
