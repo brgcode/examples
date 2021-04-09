@@ -133,5 +133,4 @@ dmypy.json
 
 __temp/**
 
-docs/**
-!docs/PLACEHOLDER
+temp
