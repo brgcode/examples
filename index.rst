@@ -7,4 +7,4 @@ COMPAS Examples
     :maxdepth: 1
     :titlesonly:
 
-    **/*
+    example-mesh-booleans/doc
