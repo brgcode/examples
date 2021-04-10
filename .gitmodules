@@ -1,6 +1,9 @@
 [submodule "example-mesh-booleans"]
 	path = example-mesh-booleans
 	url = https://github.com/brgcode/example-mesh-booleans
+[submodule "example-mesh-subdivision-schemes"]
+	path = example-mesh-subdivision-schemes
+	url = https://github.com/brgcode/example-mesh-subdivision-schemes
 [submodule "example_test"]
 	path = example_test
 	url = https://github.com/Licini/example_test.git
