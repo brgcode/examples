@@ -8,3 +8,4 @@ COMPAS Examples
     :titlesonly:
 
     example-mesh-booleans/doc
+    example-mesh-subdivision-schemes/doc
