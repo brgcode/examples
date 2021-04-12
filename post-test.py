@@ -22,4 +22,4 @@ for key in TESTED.copy():
     if key not in submodules:
         del TESTED[key]
 
-json.dump(TESTED, open("tested.json", "w"))
+json.dump(TESTED, open("tested.json", "w"), indent=2)
