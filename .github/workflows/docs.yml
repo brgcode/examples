@@ -30,7 +30,7 @@ jobs:
         id: docs
         if: success()
         run: |
-          invoke docs
+          sphinx-build -E . dist/docs
           echo "Docs will be deployed to https://compas.dev/examples"
           
       # - name: Deploy docs
@@ -38,7 +38,7 @@ jobs:
       #   uses: crazy-max/ghaction-github-pages@v2
       #   with:
       #     target_branch: gh-pages
-      #     build_dir: dist/docs
+      #     build_dir: docs
       #     keep_history: false
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
