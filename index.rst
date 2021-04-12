@@ -9,3 +9,4 @@ COMPAS Examples
 
     example-mesh-booleans/doc
     example-mesh-subdivision-schemes/doc
+    example-mesh-subdivision-creased/doc
