@@ -12,3 +12,4 @@ COMPAS Examples
     example-mesh-subdivision-creased/doc
     example-mesh-from-halfspaces/doc
     example-oriented-bounding-box/doc
+    example-point-in-box/doc

@@ -13,3 +13,6 @@
 [submodule "example-oriented-bounding-box"]
 	path = example-oriented-bounding-box
 	url = https://github.com/brgcode/example-oriented-bounding-box.git
+[submodule "example-point-in-box"]
+	path = example-point-in-box
+	url = https://github.com/brgcode/example-point-in-box.git
