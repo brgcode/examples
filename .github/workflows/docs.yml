@@ -37,11 +37,11 @@ jobs:
           echo "Docs will be deployed to https://compas.dev/examples"
           
       - name: Deploy docs
-        if: success()
+        if: success() && github.event_name == 'push' # Only deploy when pushed to master
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
           build_dir: dist/docs
-          keep_history: false
+          keep_history: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
