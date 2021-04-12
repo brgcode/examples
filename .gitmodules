@@ -7,3 +7,6 @@
 [submodule "example-mesh-subdivision-creased"]
 	path = example-mesh-subdivision-creased
 	url = https://github.com/brgcode/example-mesh-subdivision-creased.git
+[submodule "example-mesh-from-halfspaces"]
+	path = example-mesh-from-halfspaces
+	url = https://github.com/brgcode/example-mesh-from-halfspaces.git
