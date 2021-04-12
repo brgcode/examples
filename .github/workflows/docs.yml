@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    if: github.repository == 'compas-dev/examples'
     name: build and deploy docs
     runs-on: ubuntu-latest
     steps:
@@ -33,12 +34,12 @@ jobs:
           sphinx-build -E . dist/docs
           echo "Docs will be deployed to https://compas.dev/examples"
           
-      # - name: Deploy docs
-      #   if: success()
-      #   uses: crazy-max/ghaction-github-pages@v2
-      #   with:
-      #     target_branch: gh-pages
-      #     build_dir: docs
-      #     keep_history: false
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy docs
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: docs
+          keep_history: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
