@@ -1,0 +1,47 @@
+name: docs
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    if: github.repository == 'compas-dev/examples'
+    name: build and deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          sudo apt-get install graphviz
+          python -m pip install --upgrade pip
+          python -m pip install cython --install-option="--no-cython-compile"
+      - name: Install
+        run: |
+          python -m pip install --no-cache-dir -r requirements-dev.txt
+      - name: Generate docs
+        id: docs
+        if: success()
+        run: |
+          sphinx-build -E . dist/docs
+          echo "Docs will be deployed to https://compas.dev/examples"
+          
+      - name: Deploy docs
+        if: success() && github.event_name == 'push' # Only deploy when pushed to master
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: dist/docs
+          keep_history: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

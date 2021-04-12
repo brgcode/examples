@@ -147,13 +147,7 @@ This is a two-part procedure.
    git clone https://github.com/<username>/examples
    ```
 
-2. Add a branch to the local clone for your example.
-
-   ```bash
-   git checkout -b title-of-my-example
-   ```
-
-3. Add the repo containing your example as a submodule of the COMPAS examples repo.
+2. Add the repo containing your example as a submodule of the COMPAS examples repo.
 
    ```bash
    git submodule add https://github.com/<username>/title-of-my-example
@@ -161,4 +155,4 @@ This is a two-part procedure.
    git push
    ```
 
-4. Go to github and submit a PR from your fork to the COMPAS examples repo.
+3. Go to github and submit a PR from your fork to the COMPAS examples repo.
