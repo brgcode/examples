@@ -16,3 +16,4 @@ COMPAS Examples
     example-mesh-duals/doc
     example-network-shortest-path/doc
     example-mesh-splitting/doc
+    example-conway-operators/doc

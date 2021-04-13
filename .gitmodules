@@ -25,3 +25,6 @@
 [submodule "example-mesh-splitting"]
 	path = example-mesh-splitting
 	url = https://github.com/brgcode/example-mesh-splitting.git
+[submodule "example-conway-operators"]
+	path = example-conway-operators
+	url = https://github.com/brgcode/example-conway-operators.git
