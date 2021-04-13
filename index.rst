@@ -15,3 +15,4 @@ COMPAS Examples
     example-point-in-box/doc
     example-mesh-duals/doc
     example-network-shortest-path/doc
+    example-mesh-splitting/doc
