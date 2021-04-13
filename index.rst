@@ -13,3 +13,4 @@ COMPAS Examples
     example-mesh-from-halfspaces/doc
     example-oriented-bounding-box/doc
     example-point-in-box/doc
+    example-mesh-duals/doc
