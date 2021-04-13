@@ -7,5 +7,6 @@
   "example-point-in-box": "484debd8b30ad651abd966309fe0a98ac2e706ea",
   "example-mesh-duals": "71ad2f492b3042ef66972536d866084dc0a62675",
   "example-network-shortest-path": "59d11758b716065cee82c4858f9112a0da2cab63",
-  "example-mesh-splitting": "92b56d24b86607273aa4f46258478dfcb77b1fb9"
+  "example-mesh-splitting": "92b56d24b86607273aa4f46258478dfcb77b1fb9",
+  "example-conway-operators": "a5366d9310e9b9762957ad4d6125257f12b568e0"
 }
