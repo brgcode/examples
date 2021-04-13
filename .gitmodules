@@ -16,3 +16,6 @@
 [submodule "example-point-in-box"]
 	path = example-point-in-box
 	url = https://github.com/brgcode/example-point-in-box.git
+[submodule "example-mesh-duals"]
+	path = example-mesh-duals
+	url = https://github.com/brgcode/example-mesh-duals.git
