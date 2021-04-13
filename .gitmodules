@@ -19,3 +19,6 @@
 [submodule "example-mesh-duals"]
 	path = example-mesh-duals
 	url = https://github.com/brgcode/example-mesh-duals.git
+[submodule "example-network-shortest-path"]
+	path = example-network-shortest-path
+	url = https://github.com/brgcode/example-network-shortest-path.git
