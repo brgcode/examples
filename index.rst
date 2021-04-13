@@ -17,3 +17,4 @@ COMPAS Examples
     example-network-shortest-path/doc
     example-mesh-splitting/doc
     example-conway-operators/doc
+    example-trimesh-remesh/doc

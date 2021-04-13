@@ -28,3 +28,6 @@
 [submodule "example-conway-operators"]
 	path = example-conway-operators
 	url = https://github.com/brgcode/example-conway-operators.git
+[submodule "example-trimesh-remesh"]
+	path = example-trimesh-remesh
+	url = https://github.com/brgcode/example-trimesh-remesh.git
