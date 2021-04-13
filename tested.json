@@ -5,5 +5,6 @@
   "example-mesh-from-halfspaces": "65272cff9ce64568398ac7ac27738d73a201dfbe",
   "example-oriented-bounding-box": "a5c8805dc635a8ccd2686e45804d7a4693c0e028",
   "example-point-in-box": "f16d0d11ec3f5b636263a50bae92a97df17aa780",
-  "example-mesh-duals": "05983ae1f4fdd98c258235587d4413cb818ed534"
+  "example-mesh-duals": "05983ae1f4fdd98c258235587d4413cb818ed534",
+  "example-network-shortest-path": "95ec858c44dffbff2409b03d53260d80c04f0f34"
 }
