@@ -6,5 +6,6 @@
   "example-oriented-bounding-box": "a5c8805dc635a8ccd2686e45804d7a4693c0e028",
   "example-point-in-box": "f16d0d11ec3f5b636263a50bae92a97df17aa780",
   "example-mesh-duals": "05983ae1f4fdd98c258235587d4413cb818ed534",
-  "example-network-shortest-path": "95ec858c44dffbff2409b03d53260d80c04f0f34"
+  "example-network-shortest-path": "95ec858c44dffbff2409b03d53260d80c04f0f34",
+  "example-mesh-splitting": "9a82af13f296716a03c66a01bae3da4885a039d0"
 }
